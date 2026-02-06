@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PNGTuber Expression Hotkeys</title>
+  <link rel="stylesheet" href="styles/main.css">
+</head>
+
+<body>
+  <div class="app-container">
+    <!-- Header -->
+    <header class="app-header">
+      <div class="header-content">
+        <h1 class="app-title">
+          <span class="emoji">🎭</span>
+          PNGTuber Hotkeys
+        </h1>
+        <div class="header-actions">
+          <div class="server-status">
+            <span class="status-dot"></span>
+            <span id="serverUrl">Server: Loading...</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Sidebar -->
+      <aside class="sidebar">
+        <div class="sidebar-section">
+          <h2 class="section-title">Voice Detection</h2>
+          <div class="setting-group">
+            <label for="micSelect">Microphone</label>
+            <select id="micSelect">
+              <option value="">Select microphone...</option>
+            </select>
+          </div>
+          <div class="setting-group">
+            <label for="voiceThreshold">Sensitivity: <span id="thresholdValue">30</span></label>
+            <input type="range" id="voiceThreshold" min="5" max="80" value="30">
+          </div>
+          <div class="setting-group">
+            <div class="audio-meter">
+              <div id="audioLevel" class="audio-level"></div>
+            </div>
+            <div class="speaking-indicator" id="speakingIndicator">
+              <span class="indicator-dot"></span>
+              <span id="speakingText">Idle</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="sidebar-section">
+          <h2 class="section-title">Settings</h2>
+          <div class="setting-group">
+            <label for="defaultTransition">Transition</label>
+            <select id="defaultTransition">
+              <option value="instant">Instant</option>
+              <option value="fade">Fade</option>
+              <option value="scale">Scale</option>
+            </select>
+          </div>
+          <div class="setting-group">
+            <label for="transitionDuration">Duration (ms)</label>
+            <input type="number" id="transitionDuration" value="300" min="100" max="2000" step="50">
+          </div>
+          <button id="saveSettings" class="btn btn-primary">Save Settings</button>
+        </div>
+
+        <div class="sidebar-section">
+          <h2 class="section-title">OBS Setup</h2>
+          <p class="help-text">Add a BrowserSource in OBS:</p>
+          <div class="url-box">
+            <code id="obsUrl">http://localhost:7474/overlay</code>
+            <button id="copyUrl" class="btn-icon" title="Copy URL">📋</button>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Groups Grid -->
+      <section class="expressions-section">
+        <div class="section-header">
+          <h2 class="section-title">Expression Groups</h2>
+          <button id="addGroup" class="btn btn-primary">+ Add Group</button>
+        </div>
+
+        <div id="groupsGrid" class="expressions-grid">
+          <!-- Group cards will be added dynamically -->
+        </div>
+
+        <div id="emptyState" class="empty-state">
+          <h3>No Groups Yet</h3>
+          <p>Click "Add Group" to create your first expression group</p>
+        </div>
+      </section>
+    </main>
+
+    <!-- Modal for adding/editing groups -->
+    <div id="groupModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 id="modalTitle">Add Group</h2>
+          <button class="modal-close">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="groupName">Group Name</label>
+            <input type="text" id="groupName" placeholder="Happy, Sad, Excited...">
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Idle Image</label>
+              <div class="file-input-group">
+                <input type="text" id="idleImage" placeholder="Select image..." readonly>
+                <button id="selectIdle" class="btn btn-secondary">Browse</button>
+              </div>
+              <div id="idlePreview" class="image-preview"></div>
+            </div>
+
+            <div class="form-group">
+              <label>Speaking Image</label>
+              <div class="file-input-group">
+                <input type="text" id="speakingImage" placeholder="Select image..." readonly>
+                <button id="selectSpeaking" class="btn btn-secondary">Browse</button>
+              </div>
+              <div id="speakingPreview" class="image-preview"></div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="groupHotkey">Hotkey</label>
+            <div class="file-input-group">
+              <input type="text" id="groupHotkey" placeholder="Press keys..." readonly>
+              <button id="recordHotkey" class="btn btn-secondary">Record</button>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button id="cancelModal" class="btn btn-secondary">Cancel</button>
+          <button id="saveGroup" class="btn btn-primary">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/audio.js"></script>
+  <script src="js/app.js"></script>
+</body>
+
+</html>
